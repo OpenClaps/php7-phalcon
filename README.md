@@ -51,7 +51,6 @@ Extensions
 
 
 ## Docker Configuration
------------------------
 
 ### Image Configuration
 
@@ -90,7 +89,6 @@ Load application in browser : https://localhost
 > With custom port use `https://localhost:<your-port>`
 
 ## Reference
--------------
 
 For more docker specific commands please refer following documents
 
