@@ -1,10 +1,18 @@
 version: '3'
 services:
-  web:
-    build: ../
-    image: test-image
-    container_name: test
-    ports:
-        - 443:443
+  webapp:
+    image: openclaps/php7-phalcon
+    container_name: php-phalcon
     volumes:
-        - ./app:/var/www/html/
+      - ./app:/web-root/app
+    ports:
+      - 443:443
+    environment:
+        - HTTPD_APPLICATION_ENV=local
+        - HTTPD_LOG_LEVEL=warn
+        - PHP_DISPLAY_ERROR=1
+        - PHP_DISPLAY_ERROR_REPORTING=-1
+        - PHP_TIMEZONE=America/Los_Angeles
+        - HTTPD_BASEURL=/
+        - HTTPD_SERVER_ADMIN=localhost@localhost.com
+        - HTTPD_HOST_NAME=localhost

@@ -1,64 +1,126 @@
-PHP 7 - Phalcon
-===============
+# PHP 7 - Phalcon
 
-Image is used for creating OpenClaps microservices. For easy use you can directly pull image from docker hub.
+
+Image is used for creating OpenClaps micro services. For easy use you can directly pull image from docker hub.
 
 Image Registry : [PHP 7 - Phalcon](https://hub.docker.com/r/openclaps/php7-phalcon/)
 
----------------------------------------------------
 
-Pre-Request
------------
+# Pre-Request
+
 
 Development machine dependencies are listed below:
 
 Download [Docker Engine](https://docs.docker.com/engine/installation/)
 
-Base OS
---------
+# Base OS
+
 Linux : Oracle linux
-Subversion : 7
+Subversion : 7-slim
 
-Repo :  oraclelinux:7
+Repo :  oraclelinux:7-slim
 
-Softwares
-----------
+### Packages
+
 [**Apache** : 2.4.6](https://httpd.apache.org/download.cgi) (Web Server)
 
 [**Phalcon** : 3.0](https://olddocs.phalconphp.com/en/3.0.0/reference/install.html) (Framework)
 
 Refer: RPM distributions (i.e. CentOS) session for more information
 
-[**PHP** : 7.0](http://php.net/releases/7_0_0.php)
+[**PHP** : 7.2.2](http://php.net/releases/7_2_3.php)
 
 Extensions
 - php-http 
 - php-mcrypt 
 - php-cli 
-- php-gd  
-- php-curl  
-- php-mysql  
+- php-gd 
+- php-curl 
+- php-mysql 
+- php-pdo 
 - php-redis 
 - php-zip 
 - php-apc 
+- php-ldap 
+- php-imap 
 - php-phalcon3 
 - php-mongodb 
-- php-mbstring
-- php-xml
-- php-xmlrpc
-- php-process
-- php-soap
+- php-oci8-12c 
+- php-mcrypt 
 
+
+## Environment Variables
+#### Apache
+
+##### Log Levels
+
+> HTTPD_LOG_LEVEL warn [Default]
+> ##### Supported Options:
+> - emerg
+> - alert
+> - crit
+> - error
+> - warn
+> - notice
+> - info
+> - debug
+> - trace1
+> - trace2
+> - trace3
+> - trace4
+> - trace5
+> - trace6
+> - trace7
+> - trace8
+
+##### Other ENV variables
+> - HTTPD_BASEURL /  [Support for application base url]
+> - HTTPD_SERVER_ADMIN localhost@localhost.com [Server admin email]
+> - HTTPD_HOST_NAME localhost [Host server name]
+
+#### PHP
+
+##### Log Levels
+> PHP_DISPLAY_ERROR_REPORTING OFF [Default]
+> ##### Supported Options:
+> - E_ALL All
+> - E_ERROR
+> - E_WARNING
+> - E_PARSE
+> - E_DEPRECATED
+> - E_NOTICE
+> - E_CORE_ERROR
+> - E_CORE_WARNING
+> - E_COMPILE_ERROR
+> - E_COMPILE_WARNING
+> - E_USER_ERROR
+> - E_USER_WARNING
+> - E_USER_NOTICE
+
+##### Other ENV variables
+> - PHP_DISPLAY_ERROR 0 [To display php error]
+> - PHP_TIMEZONE America/Los_Angeles [PHP timezone]
 
 ## Docker Configuration
+
+Working Dir : /web-root
+
+All application dependecies are mounted under /ngs folder as
+- /web-root/app
+- /web-root/certs
+- /web-root/logs
+
+Log Channel: All following logs are channeled to STDOUT
+- /web-root/logs/ssl_request_log
+- /web-root/logs/ssl_error_log
+- /web-root/logs/ssl_access_log
 
 ### Image Configuration
 
 Exposed Ports
-- 80
 - 443
 
-> Note: if you are running any other application in port 443, you can change line number 8 from 443:443 to [Your port]:443. Make sure you use the same port when loading application in browser
+> Note: if you are running any other application in port 443, Change container port to another free port from host machine
 
 Container Main Tread: 
 
@@ -70,7 +132,7 @@ Container Main Tread:
 
 ### Run Image
 
-> docker run -p [your-port]:443 --name openclaps-php7 -v [your-app-path]:/var/www/html/ openclaps/php7-phalcon
+> docker run -p [your-port]:443 --name openclaps-php7 -v [your-app-path]:/web-root/app openclaps/php7-phalcon
 
 ### Sample App
 
@@ -84,7 +146,7 @@ To stop & remove
 > - cd to "sample" folder
 > - Execute command "docker-compose down"
 
-Load application in browser : https://localhost
+Load application in browser : https://localhost/api/robots
 
 > With custom port use `https://localhost:<your-port>`
 
