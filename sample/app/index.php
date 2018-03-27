@@ -1,7 +1,4 @@
 <?php
-phpinfo();
-var_dump();
-die();
 use Phalcon\Loader;
 use Phalcon\Mvc\Micro;
 use Phalcon\Di\FactoryDefault;
