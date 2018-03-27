@@ -1,5 +1,5 @@
 FROM oraclelinux:7-slim
-MAINTAINER vbose@apple.com
+MAINTAINER Vijay, Senthil
 # PHP7.1.2 Setup
 RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
     http://rpms.remirepo.net/enterprise/remi-release-7.rpm \
