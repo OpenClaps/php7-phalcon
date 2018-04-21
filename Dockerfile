@@ -42,8 +42,13 @@ ENV HTTPD_APPLICATION_ENV=local \
     PHP_TIMEZONE=America/Los_Angeles \
     HTTPD_BASEURL=/ \
     HTTPD_SERVER_ADMIN=localhost@local.com \
-    HTTPD_HOST_NAME=localhost
-
+    HTTPD_ALLOWED_HEADERS=Content-Type,\ Authorization,\ X-CSRFToken,\ X-AuthToken,\ X-AuthContext,\ X-AuthContextVersion,\ Expires,\ Pragma \
+    PHP_DISPLAY_ERROR=0 \
+    PHP_DISPLAY_ERROR_REPORTING=OFF \
+    PHP_TIMEZONE=America/Los_Angeles \
+    HTTPD_HOST_NAME=localhost \
+    HTTPD_PORT=443
+    
 WORKDIR /web-root
 
 EXPOSE 443

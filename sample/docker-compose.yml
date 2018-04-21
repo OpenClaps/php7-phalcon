@@ -1,8 +1,8 @@
 version: '3'
 services:
   webapp:
+    container_name: webapp
     image: openclaps/php7-phalcon
-    container_name: php-phalcon
     volumes:
       - ./app:/web-root/app
     ports:
@@ -16,3 +16,13 @@ services:
         - HTTPD_BASEURL=/
         - HTTPD_SERVER_ADMIN=localhost@localhost.com
         - HTTPD_HOST_NAME=localhost
+        #Match with host machine port for proxies to work
+        - HTTPD_PORT=443
+  mongo:
+    image: mongo
+    container_name: mongo
+    volumes:
+      - ./app/data:/data/db
+  redis:
+    image: redis
+    container_name: redis
