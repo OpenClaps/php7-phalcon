@@ -150,6 +150,57 @@ Load application in browser : https://localhost/api/robots
 
 > With custom port use `https://localhost:<your-port>`
 
+## Custom Settings
+
+### Docker Network
+
+- For connecting your application container to running external container in your host machine. Updated docker-compose.yml with following code.
+
+Example : If we need "webapp","redis" and "mongo" container to run in default network. Make following change in docker-compose.yml
+
+- Update in webapp service
+```
+    webapp:
+    ....
+    ..
+    network_mode: bridge
+    links:
+      - mongo
+      - redis
+    ..
+    .....
+```
+
+- Update in mongo service
+```
+  mongo:
+    ....
+    ...
+    volumes:
+      - ./app/data:/data/db
+    network_mode: bridge
+    
+
+```
+
+- Update in redis service
+```
+  redis:
+    ....
+    ...
+    container_name: redis
+    network_mode: bridge
+
+```
+
+"links" are deprecated feature from docker-compose please avoid using it.
+
+
+
+#### Recommendation
+> Keep isolated custom network created by "docker-compose up" for each application.For data persistence map your data volume from your container images to "data" folder in application.Exclude "data" folder in .gitignore
+
+
 ## Reference
 
 For more docker specific commands please refer following documents
