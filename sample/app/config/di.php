@@ -9,6 +9,7 @@
  use Phalcon\Loader;
  use Phalcon\Logger\Multiple as MultipleStream;
  use Phalcon\Logger\Adapter\Stream as StreamAdapter;
+ use Phalcon\Mvc\View;
 
   $di = \Phalcon\DI\FactoryDefault::getDefault();
   $config = $di->get('config');
@@ -46,12 +47,10 @@
  */
 $loader = new Loader();
 // Register some namespaces
-$loader->registerNamespaces(
-  [
-     'App\Models'    => APPLICATION_PATH.'../models',
-     'App\Controllers'  => APPLICATION_PATH.'../controllers'
-  ]
-)->register();
+$loader->registerDirs(array(
+     APPLICATION_PATH.'models',
+     APPLICATION_PATH.'controllers'
+))->register();
 
 /**
  * ########################################################
@@ -120,3 +119,19 @@ $di->set('Redis', function () use ($config) {
     $redis->connect($redisParams->host, $redisParams->port); 
     return $redis;
 });
+
+$di->set(
+    "view",
+    function () {
+        $view = new View();
+        // Disable several levels
+        $view->disableLevel(
+            [
+                View::LEVEL_NO_RENDER => true
+            ]
+        );
+
+        return $view;
+    },
+    true
+);

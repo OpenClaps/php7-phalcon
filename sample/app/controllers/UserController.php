@@ -1,12 +1,16 @@
 <?php
-namespace App\Controllers;
+// namespace App\Controllers;
 
 use Phalcon\Mvc\Controller;
 
 class UserController extends Controller
 {
     public function indexAction(){
-        die("in Index");
+        // echo 'Hi in Index'; die;
+        return array(
+            'key' => 123,
+            'value' => 'test value'
+        );
     }
 
     public function profileAction()
