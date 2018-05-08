@@ -21,23 +21,23 @@ $version = $di->get('config')->app->version;
 $logger = $di->get('logger');
 
 $router->add('/{controller:[\w\-]+}/?{action:[\w\-]*}{params:/?.*}');
-$di->set('dispatcher', function() use ($di) {
-  //Create an EventsManager
-  $eventsManager = new Phalcon\Events\Manager();
-  $dispatcher = new Phalcon\Mvc\Dispatcher();  
-  $dispatcher->setEventsManager($eventsManager);	
-  $eventsManager->attach("dispatch:afterDispatchLoop", function($event, $dispatcher) use ($di) {
-		// $response = $di->getResponse();
-		$di->getResponse()->setHeader("Content-Type", "text/plain");
-		// $result = $dispatcher->getReturnedValue();
-		$di->getResponse()->setStatusCode(200);
-		$di->getResponse()->setContent("asdfadsf");
-		var_dump($di->getResponse()->getContent());
-		die();
-		$di->getResponse()->send();
-	});
-  return $dispatcher;
-});
+// $di->set('dispatcher', function() use ($di) {
+//   //Create an EventsManager
+//   $eventsManager = new Phalcon\Events\Manager();
+//   $dispatcher = new Phalcon\Mvc\Dispatcher();  
+//   $dispatcher->setEventsManager($eventsManager);	
+//   $eventsManager->attach("dispatch:afterDispatchLoop", function($event, $dispatcher) use ($di) {
+// 		// $response = $di->getResponse();
+// 		$di->getResponse()->setHeader("Content-Type", "text/plain");
+// 		// $result = $dispatcher->getReturnedValue();
+// 		$di->getResponse()->setStatusCode(200);
+// 		$di->getResponse()->setContent("asdfadsf");
+// 		var_dump($di->getResponse()->getContent());
+// 		die();
+// 		$di->getResponse()->send();
+// 	});
+//   return $dispatcher;
+// });
 
 
 
