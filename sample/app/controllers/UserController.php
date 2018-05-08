@@ -1,20 +1,20 @@
 <?php
-// namespace App\Controllers;
+require_once("baseController.php");
 
-use Phalcon\Mvc\Controller;
-
-class UserController extends Controller
+class UserController extends BaseController
 {
-    public function indexAction(){
-        // echo 'Hi in Index'; die;
-        return array(
+
+    public function indexAction() {
+        echo 'Hi in user Index'; 
+        // die;
+        $result = array(
             'key' => 123,
             'value' => 'test value'
         );
+        $this->view->data = $result;
     }
 
-    public function profileAction()
-    {
+    public function profileAction() {
         die("In Test Action");
     }
 }
