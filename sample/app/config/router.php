@@ -14,96 +14,32 @@ use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Dispatcher as MvcDispatcher;
 
 $di = \Phalcon\DI\FactoryDefault::getDefault();
-$router = new Router();
-$router->setDI($di);
-
 $version = $di->get('config')->app->version;
 $logger = $di->get('logger');
 
-$router->add('/{controller:[\w\-]+}/?{action:[\w\-]*}{params:/?.*}');
-// $di->set('dispatcher', function() use ($di) {
-//   //Create an EventsManager
-//   $eventsManager = new Phalcon\Events\Manager();
-//   $dispatcher = new Phalcon\Mvc\Dispatcher();  
-//   $dispatcher->setEventsManager($eventsManager);	
-//   $eventsManager->attach("dispatch:afterDispatchLoop", function($event, $dispatcher) use ($di) {
-// 		// $response = $di->getResponse();
-// 		$di->getResponse()->setHeader("Content-Type", "text/plain");
-// 		// $result = $dispatcher->getReturnedValue();
-// 		$di->getResponse()->setStatusCode(200);
-// 		$di->getResponse()->setContent("asdfadsf");
-// 		var_dump($di->getResponse()->getContent());
-// 		die();
-// 		$di->getResponse()->send();
-// 	});
-//   return $dispatcher;
-// });
+$router = new Router();
+$router->setDI($di);
 
 
+// list of routes
+$userController = new \App\Controllers\UserController();
+$app->get(
+    "/user/index",
+    [
+        $userController,
+        "indexAction"
+    ]
+);
 
-	// return $response;
-	// var_dump($response);
-	// die();
-	// $response = new \Phalcon\Http\Response();
-	// $response->setStatusCode(200);
-	//Set the content of the response
-	// $response->setJsonContent(array('data' => $result));
-
-	// if ($response instanceof ResponseInterface) {
-	// 	die("ASDf");
-    // 	// Send the response
-    // 	$response->send();
-	// }
-
-	// echo $response;
-	//Return the response
-	// print_r($response, 1);
-	// var_dump($response);
-	// die();
-	// $response->send();
-	// var_dump($response);
-		// //Possible controller class name
-		// $controllerName = Phalcon\Text::camelize($dispatcher->getControllerName()) . 'Controller';
-		// //Possible method name
-		// $actionName = $dispatcher->getActionName() . 'Action';
-
-		// if (($controllerName === 'IndexController') && ($actionName === 'createAction')) {
-		//     $dispatcher->setParams(array($di['request']->getPost()));
-		// }
-
-  // die("ASFD");
-
-
-  
-
-  // $eventsManager->attach("dispatch:beforeDispatchLoop", function($event, $dispatcher) use ($di) {
-  //     //Possible controller class name
-  //     $controllerName = Phalcon\Text::camelize($dispatcher->getControllerName()) . 'Controller';
-  //     //Possible method name
-  //     $actionName = $dispatcher->getActionName() . 'Action';
-
-  //     if (($controllerName === 'IndexController') && ($actionName === 'createAction')) {
-  //         $dispatcher->setParams(array($di['request']->getPost()));
-  //     }
-  // });
-
-
-// $router->add("/forum/:controller/:action/:params", array(
-//   'controller' => 1,
-//   'action' => 2,
-//   'params' => 3
-// ));
-
-// $router->add("/forum/:controller", array(
-//   'controller' => 1   
-// ));
+$app->get(
+    "/user/profile/{name}",
+    [
+        $userController,
+        "profileAction"
+    ]
+);
 
 $router->handle();
-
-
-
-
-
 
 // //@todo: Need to update routing with controller pattern
 // $app->get(
@@ -135,9 +71,11 @@ $router->handle();
 
 // $router->handle();
 
-// // Handel application wide router errors
+// Handel application wide router errors
 // $app->error(
 //   function ($exception) use ($logger) {
+
+// 	echo "HERE.. .";
 //     //Log error
 //     $logger->error("Router fail with: ". $exception->getMessage());
 //     //404 request not found
@@ -151,7 +89,7 @@ $router->handle();
 //         'error'=>array(
 //             'code' => 404,
 //             // 'message' => 'No data found'
-//             'message' => $exception->getMessage()
+//             'message' => $exception->getMessage() . "<br><br>".  $exception->getTraceAsString()
 //           )
 //         )
 //       );
@@ -160,4 +98,11 @@ $router->handle();
 //     }
 //   }
 // );
+
+$app->notFound(function () use ($app) {
+
+	var_dump($app->router->getRoutes());
+    $app->response->setStatusCode(404, "Not Found")->sendHeaders();
+    echo 'This is crazy, but this page was not found!';
+});
 

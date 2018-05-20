@@ -17,9 +17,7 @@
  */
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Config\Adapter\Ini as IniConfig;
-// use Phalcon\Mvc\Micro;
-use Phalcon\Mvc\Application;
-
+use Phalcon\Mvc\Micro;
 
 //Define Application Path
 define("APPLICATION_PATH",__DIR__.DIRECTORY_SEPARATOR);
@@ -28,10 +26,11 @@ $di = new FactoryDefault();
 $di->set(
   "config",
   function () {
-      return new IniConfig(APPLICATION_PATH.'config'.DIRECTORY_SEPARATOR.'application.ini');
+	  return new IniConfig(APPLICATION_PATH.'config'.DIRECTORY_SEPARATOR.'application.ini');
   }
 );
-$app = new Application($di);
+
+$app = new Micro($di);
 //Load Dependency Injection and router
 require_once(APPLICATION_PATH.'config'.DIRECTORY_SEPARATOR.'di.php');
 require_once(APPLICATION_PATH.'config'.DIRECTORY_SEPARATOR.'router.php');

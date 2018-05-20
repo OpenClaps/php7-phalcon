@@ -9,7 +9,7 @@
  use Phalcon\Loader;
  use Phalcon\Logger\Multiple as MultipleStream;
  use Phalcon\Logger\Adapter\Stream as StreamAdapter;
- use Phalcon\Mvc\View;
+ use Phalcon\Mvc\Micro\Collection;
 
   $di = \Phalcon\DI\FactoryDefault::getDefault();
   $config = $di->get('config');
@@ -47,10 +47,23 @@
  */
 $loader = new Loader();
 // Register some namespaces
-$loader->registerDirs(array(
-     APPLICATION_PATH.'models',
-     APPLICATION_PATH.'controllers'
-))->register();
+$loader->registerNamespaces(
+	[
+		'App\Models' =>  APPLICATION_PATH.'models',
+		'App\Controllers' =>  APPLICATION_PATH.'controllers',
+	]
+);
+
+$loader->registerDirs(
+    array(
+        APPLICATION_PATH . 'models/',
+        APPLICATION_PATH . 'controllers/'
+    ));
+
+ //register autoloader
+ $loader->register();
+
+// var_dump($loader);
 
 /**
  * ########################################################
@@ -120,18 +133,18 @@ $di->set('Redis', function () use ($config) {
     return $redis;
 });
 
-$di->set(
-    "view",
-    function () {
-        $view = new View();
-        // Disable several levels
-        $view->disableLevel(
-            [
-                View::LEVEL_NO_RENDER => true
-            ]
-        );
+// $di->set(
+//     "view",
+//     function () {
+//         $view = new View();
+//         // Disable several levels
+//         $view->disableLevel(
+//             [
+//                 View::LEVEL_NO_RENDER => true
+//             ]
+//         );
 
-        return $view;
-    },
-    true
-);
+//         return $view;
+//     },
+//     true
+// );

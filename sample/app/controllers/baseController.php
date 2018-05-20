@@ -1,7 +1,8 @@
 <?php
-// namespace App\Controllers;
+namespace App\Controllers;
+
 use Phalcon\Mvc\Controller;
-use Phalcon\Mvc\Dispatcher as MvcDispatcher;
+use Phalcon\Mvc\Dispatcher;
 
 class BaseController extends Controller
 {
@@ -19,12 +20,4 @@ class BaseController extends Controller
         return $this->response->send();
     }
 
-
-    public function indexAction(){
-        // echo 'Hi in base Index'; die;
-        return array(
-            'key' => 123,
-            'value' => 'test value'
-        );
-    }
 }
